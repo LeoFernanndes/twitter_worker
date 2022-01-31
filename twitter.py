@@ -19,14 +19,14 @@ def parse_status(status: Status):
         "user_id_str": status._json.get('user').get('id_str'),
         "full_text" :status._json.get('full_text'),
         "truncated": status._json.get('truncated'),
-        # "created_at": status._json.get('created_at'),
         "created_at": status.created_at.replace(tzinfo=pytz.utc),
         "entities_hashtags": status._json.get('entities_hashtags'),
         "entities_symbols": status._json.get('entities_symbols'),
         "entities_user_mentions": status._json.get('entities_user_mentions'),
         "entities_urls": status._json.get('entities_urls'),
         "geo": status._json.get('geo'),
-        "coordinates": status._json.get('coordinates'),
+        # "coordinates": status._json.get('coordinates'),
+        "coordinates": "pass",
         "place": status._json.get('place'),
         "contributors": status._json.get('contributors'),
         "is_quote_status": status._json.get('is_quote_status'),
@@ -79,5 +79,5 @@ def fist_profile_tweet_load(user_id: str, db_engine: engine.Engine) -> None:
 
     total_dataframe = pd.DataFrame(tweet_list)
     total_dataframe.drop_duplicates().to_sql('tweet', con=db_engine, if_exists='append', index=False)  
+    total_dataframe.to_sql('tweet', con=db_engine, if_exists='append', index=False)  
     print(f"{user_id} successfully loaded {total_dataframe.drop_duplicates().shape[0]} rows")
-
